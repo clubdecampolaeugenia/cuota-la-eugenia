@@ -1,0 +1,17 @@
+function doGet(e) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sh = ss.getSheetByName("DASHBOARD");
+
+  if (e.parameter.json === "1") {
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        titulo: sh.getRange("A1").getDisplayValue(),
+        lote: sh.getRange("A2").getDisplayValue(),
+        adicional: sh.getRange("A3").getDisplayValue(),
+        actualizacion: sh.getRange("A5").getDisplayValue()
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  return HtmlService.createHtmlOutput("OK");
+}
