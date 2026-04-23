@@ -6,9 +6,7 @@
 <title>Cuota vigente</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -37,13 +35,23 @@ body {
   margin-bottom: 22px;
 }
 
-.amount {
-  font-size: 28px;
-  font-weight: 700;
-  margin: 10px 0;
-  letter-spacing: 0.3px;
+/* ETIQUETA (regular) */
+.label {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  opacity: 0.8;
+  margin-top: 14px;
 }
 
+/* MONTO (bold protagonista) */
+.amount {
+  font-size: 32px;
+  font-weight: 900;
+  margin: 4px 0 10px;
+}
+
+/* BOTÓN COPIAR */
 .copyBtn {
   margin-top: 22px;
   display: inline-block;
@@ -59,6 +67,7 @@ body {
   text-align: center;
 }
 
+/* BOTÓN VOLVER */
 .backButton {
   margin-top: 14px;
   display: inline-block;
@@ -78,21 +87,6 @@ body {
   font-size: 13px;
   color: #23485a;
 }
-
-@media (max-width: 480px) {
-  .title {
-    font-size: 30px;
-  }
-
-  .amount {
-    font-size: 26px;
-  }
-
-  .copyBtn,
-  .backButton {
-    font-size: 17px;
-  }
-}
 </style>
 </head>
 
@@ -103,10 +97,11 @@ body {
   <div class="title" id="titulo">Cargando...</div>
 
   <div class="label">LOTE</div>
-<div class="amount" id="lote"></div>
+  <div class="amount" id="lote"></div>
 
-<div class="label">LOTE ADICIONAL</div>
-<div class="amount" id="adicional"></div>
+  <div class="label">LOTE ADICIONAL</div>
+  <div class="amount" id="adicional"></div>
+
   <a class="copyBtn" href="https://clubdecampolaeugenia.github.io/copiar-alias/">
     COPIAR ALIAS DE LA EUGENIA
   </a>
@@ -120,24 +115,30 @@ body {
 </div>
 
 <script>
+
 const DATA_URL = "https://script.google.com/macros/s/AKfycbz5gcfgjTNLm94jSdSGcVCiM8WP2673S1cGj9uCCq6XehVlLLJ2Q9OgPaVaSNrvceE7/exec";
 
 fetch(DATA_URL)
-  .then(res => res.text())
-  .then(text => {
-    const p = text.split("|");
+.then(res => res.text())
+.then(text => {
+  const p = text.split("|");
 
-    document.getElementById("titulo").innerText = p[0] || "";
-    document.getElementById("lote").innerText = p[1] || "";
-    document.getElementById("adicional").innerText = p[2] || "";
-    document.getElementById("actualizacion").innerText = p[3] || "";
-  })
-  .catch(() => {
-    document.getElementById("titulo").innerText = "Error cargando datos";
-    document.getElementById("lote").innerText = "";
-    document.getElementById("adicional").innerText = "";
-    document.getElementById("actualizacion").innerText = "";
-  });
+  // Título
+  document.getElementById("titulo").innerText = p[0] || "";
+
+  // LIMPIAMOS TEXTO (clave para evitar duplicación)
+  const lote = (p[1] || "").replace("LOTE: ", "");
+  const adicional = (p[2] || "").replace("LOTE ADICIONAL: ", "");
+
+  document.getElementById("lote").innerText = lote;
+  document.getElementById("adicional").innerText = adicional;
+
+  document.getElementById("actualizacion").innerText = p[3] || "";
+})
+.catch(() => {
+  document.getElementById("titulo").innerText = "Error cargando datos";
+});
+
 </script>
 
 </body>
