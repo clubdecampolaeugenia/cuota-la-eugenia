@@ -31,64 +31,42 @@ body {
   box-shadow: 0 14px 34px rgba(0,0,0,0.18);
 }
 
+/* TITULO */
 .title {
-  font-size: 30px;
-  font-weight: 800;
-  margin-bottom: 18px;
+  font-size: 34px;
+  font-weight: 900;
+  margin-bottom: 22px;
 }
 
-.value {
-  font-size: 22px;
-  margin: 8px 0;
-  font-weight: 600;
-}
-
-.footer {
-  margin-top: 16px;
+/* ETIQUETAS */
+.label {
   font-size: 13px;
-  color: #23485a;
+  opacity: 0.7;
+  margin-top: 12px;
+  letter-spacing: 1px;
 }
 
-/* BOTÓN TIPO TAPLINK */
-.taplinkBtn {
+/* IMPORTES (PROTAGONISTAS) */
+.amount {
+  font-size: 32px;
+  font-weight: 900;
+  margin: 4px 0;
+}
+
+/* BOTÓN COPIAR */
+.copyBtn {
+  margin-top: 22px;
+  display: inline-block;
   width: 100%;
-  border-radius: 999px;
-  border: 2px solid #0f5d5b;
-  background: #bfdc63;
-  padding: 14px 14px;
-  margin-top: 16px;
-  text-align: left;
-  display: flex;
-  align-items: center;
-  gap: 12px;
   text-decoration: none;
-  color: #0f3f54;
-}
-
-.icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
+  padding: 14px;
+  border-radius: 999px;
+  background: transparent;
   border: 2px solid #0f5d5b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color: #0f3f54;
   font-size: 18px;
-  font-weight: bold;
-}
-
-.btnText {
-  flex: 1;
-}
-
-.btnTitle {
-  font-size: 15px;
   font-weight: 700;
-}
-
-.btnSub {
-  font-size: 12px;
-  opacity: 0.8;
+  text-align: center;
 }
 
 /* BOTÓN VOLVER */
@@ -105,6 +83,13 @@ body {
   font-weight: 700;
   text-align: center;
 }
+
+/* FOOTER */
+.footer {
+  margin-top: 18px;
+  font-size: 13px;
+  color: #23485a;
+}
 </style>
 </head>
 
@@ -114,16 +99,15 @@ body {
 
   <div class="title" id="titulo">Cargando...</div>
 
-  <div class="value" id="lote"></div>
-  <div class="value" id="adicional"></div>
+  <div class="label">LOTE</div>
+  <div class="amount" id="lote"></div>
 
-  <!-- BOTÓN COPIAR (usa tu sistema ya probado) -->
-  <a class="taplinkBtn" href="https://clubdecampolaeugenia.github.io/copiar-alias/">
-    <div class="icon">💲</div>
-    <div class="btnText">
-      <div class="btnTitle">COPIAR ALIAS DE LA EUGENIA</div>
-      <div class="btnSub">Copiar alias automáticamente</div>
-    </div>
+  <div class="label">LOTE ADICIONAL</div>
+  <div class="amount" id="adicional"></div>
+
+  <!-- COPIAR ALIAS -->
+  <a class="copyBtn" href="https://clubdecampolaeugenia.github.io/copiar-alias/">
+    COPIAR ALIAS DE LA EUGENIA
   </a>
 
   <!-- VOLVER -->
