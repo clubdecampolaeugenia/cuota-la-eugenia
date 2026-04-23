@@ -113,17 +113,17 @@
   </div>
 
   <script>
-    const DATA_URL = "https://script.google.com/macros/s/AKfycbz5gcfgjTNLm94jSdSGcVCiM8WP2673S1cGj9uCCq6XehVlLLJ2Q9OgPaVaSNrvceE7/exec?json=1";
+    const DATA_URL = "https://script.google.com/macros/s/AKfycbz5gcfgjTNLm94jSdSGcVCiM8WP2673S1cGj9uCCq6XehVlLLJ2Q9OgPaVaSNrvceE7/exec";
 
     fetch(DATA_URL)
       .then(response => response.text())
       .then(text => {
-        const data = JSON.parse(text);
+        const partes = text.split("|");
 
-        document.getElementById("titulo").innerText = data.titulo || "Sin datos";
-        document.getElementById("lote").innerText = data.lote || "";
-        document.getElementById("adicional").innerText = data.adicional || "";
-        document.getElementById("actualizacion").innerText = data.actualizacion || "";
+        document.getElementById("titulo").innerText = partes[0] || "Sin datos";
+        document.getElementById("lote").innerText = partes[1] || "";
+        document.getElementById("adicional").innerText = partes[2] || "";
+        document.getElementById("actualizacion").innerText = partes[3] || "";
       })
       .catch(() => {
         document.getElementById("titulo").innerText = "Error cargando datos";
