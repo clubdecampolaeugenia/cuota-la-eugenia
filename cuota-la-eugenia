@@ -1,17 +1,84 @@
-function doGet(e) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sh = ss.getSheetByName("DASHBOARD");
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuota</title>
 
-  if (e.parameter.json === "1") {
-    return ContentService
-      .createTextOutput(JSON.stringify({
-        titulo: sh.getRange("A1").getDisplayValue(),
-        lote: sh.getRange("A2").getDisplayValue(),
-        adicional: sh.getRange("A3").getDisplayValue(),
-        actualizacion: sh.getRange("A5").getDisplayValue()
-      }))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-
-  return HtmlService.createHtmlOutput("OK");
+<style>
+body {
+  margin:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  background:#0f5d5b;
+  font-family:Arial;
 }
+
+.card {
+  width:90%;
+  max-width:420px;
+  background:#bfdc63;
+  border-radius:30px;
+  padding:30px 20px;
+  text-align:center;
+}
+
+.title {
+  font-size:28px;
+  font-weight:800;
+  margin-bottom:20px;
+}
+
+.value {
+  font-size:22px;
+  margin:8px 0;
+}
+
+.button {
+  margin-top:20px;
+  padding:16px;
+  border-radius:999px;
+  background:#0f5d5b;
+  color:#bfdc63;
+  border:3px solid #bfdc63;
+  font-size:20px;
+  font-weight:700;
+  display:block;
+  text-decoration:none;
+}
+
+.footer {
+  margin-top:15px;
+  font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <div class="title" id="titulo">Cargando...</div>
+  <div class="value" id="lote"></div>
+  <div class="value" id="adicional"></div>
+
+  <a class="button" href="https://clubdecampolaeugenia.taplink.site/">
+    VOLVER AHORA
+  </a>
+
+  <div class="footer" id="actualizacion"></div>
+</div>
+
+<script>
+fetch("https://script.google.com/macros/s/AKfycbz5gcfgjTNLm94jSdSGcVCiM8WP2673S1cGj9uCCq6XehVlLLJ2Q9OgPaVaSNrvceE7/exec?json=1")
+.then(r => r.json())
+.then(data => {
+  document.getElementById("titulo").innerText = data.titulo;
+  document.getElementById("lote").innerText = data.lote;
+  document.getElementById("adicional").innerText = data.adicional;
+  document.getElementById("actualizacion").innerText = data.actualizacion;
+});
+</script>
+
+</body>
+</html>
