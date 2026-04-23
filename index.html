@@ -35,20 +35,11 @@ body {
   margin-bottom: 22px;
 }
 
-/* ETIQUETA (regular) */
-.label {
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 1px;
-  opacity: 0.8;
-  margin-top: 14px;
-}
-
-/* MONTO (bold protagonista) */
+/* TEXTO DE CUOTAS */
 .amount {
-  font-size: 32px;
-  font-weight: 900;
-  margin: 4px 0 10px;
+  font-size: 26px;
+  font-weight: 700;
+  margin: 12px 0;
 }
 
 /* BOTÓN COPIAR */
@@ -96,10 +87,7 @@ body {
 
   <div class="title" id="titulo">Cargando...</div>
 
-  <div class="label">LOTE</div>
   <div class="amount" id="lote"></div>
-
-  <div class="label">LOTE ADICIONAL</div>
   <div class="amount" id="adicional"></div>
 
   <a class="copyBtn" href="https://clubdecampolaeugenia.github.io/copiar-alias/">
@@ -123,16 +111,9 @@ fetch(DATA_URL)
 .then(text => {
   const p = text.split("|");
 
-  // Título
   document.getElementById("titulo").innerText = p[0] || "";
-
-  // LIMPIAMOS TEXTO (clave para evitar duplicación)
-  const lote = (p[1] || "").replace("LOTE: ", "");
-  const adicional = (p[2] || "").replace("LOTE ADICIONAL: ", "");
-
-  document.getElementById("lote").innerText = lote;
-  document.getElementById("adicional").innerText = adicional;
-
+  document.getElementById("lote").innerText = p[1] || "";
+  document.getElementById("adicional").innerText = p[2] || "";
   document.getElementById("actualizacion").innerText = p[3] || "";
 })
 .catch(() => {
