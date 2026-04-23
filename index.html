@@ -1,136 +1,159 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cuota vigente</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuota vigente</title>
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #0f5d5b;
-      font-family: Arial, sans-serif;
-      padding: 18px;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    .card {
-      width: min(92vw, 430px);
-      background: #bfdc63;
-      color: #0f3f54;
-      border-radius: 28px;
-      padding: 34px 22px 24px;
-      text-align: center;
-      box-shadow: 0 14px 34px rgba(0,0,0,0.18);
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f5d5b;
+  font-family: Arial, sans-serif;
+  padding: 18px;
+}
 
-    .title {
-      font-size: 32px;
-      line-height: 1.1;
-      font-weight: 800;
-      margin-bottom: 24px;
-    }
+.card {
+  width: min(92vw, 430px);
+  background: #bfdc63;
+  color: #0f3f54;
+  border-radius: 28px;
+  padding: 28px 18px 22px;
+  text-align: center;
+  box-shadow: 0 14px 34px rgba(0,0,0,0.18);
+}
 
-    .value {
-      font-size: 24px;
-      line-height: 1.35;
-      margin: 10px 0;
-      font-weight: 600;
-    }
+.title {
+  font-size: 30px;
+  font-weight: 800;
+  margin-bottom: 18px;
+}
 
-    .buttonWrap {
-      margin-top: 24px;
-    }
+.value {
+  font-size: 22px;
+  margin: 8px 0;
+  font-weight: 600;
+}
 
-    .backButton {
-      display: inline-block;
-      width: 100%;
-      max-width: 320px;
-      text-decoration: none;
-      text-align: center;
-      padding: 16px 18px;
-      border-radius: 999px;
-      background: #0f5d5b;
-      color: #bfdc63;
-      border: 3px solid #bfdc63;
-      font-size: 22px;
-      font-weight: 800;
-      line-height: 1.1;
-    }
+.footer {
+  margin-top: 16px;
+  font-size: 13px;
+  color: #23485a;
+}
 
-    .footer {
-      margin-top: 18px;
-      font-size: 14px;
-      line-height: 1.4;
-      color: #23485a;
-      opacity: 0.9;
-    }
+/* BOTÓN TIPO TAPLINK */
+.taplinkBtn {
+  width: 100%;
+  border-radius: 999px;
+  border: 2px solid #0f5d5b;
+  background: #bfdc63;
+  padding: 14px 14px;
+  margin-top: 16px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #0f3f54;
+}
 
-    @media (max-width: 480px) {
-      .card {
-        width: 94vw;
-        padding: 30px 18px 22px;
-      }
+.icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 2px solid #0f5d5b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+}
 
-      .title {
-        font-size: 28px;
-      }
+.btnText {
+  flex: 1;
+}
 
-      .value {
-        font-size: 22px;
-      }
+.btnTitle {
+  font-size: 15px;
+  font-weight: 700;
+}
 
-      .backButton {
-        font-size: 20px;
-        padding: 15px 16px;
-      }
+.btnSub {
+  font-size: 12px;
+  opacity: 0.8;
+}
 
-      .footer {
-        font-size: 13px;
-      }
-    }
-  </style>
+/* BOTÓN VOLVER */
+.backButton {
+  margin-top: 14px;
+  display: inline-block;
+  width: 100%;
+  text-decoration: none;
+  padding: 14px;
+  border-radius: 999px;
+  background: #0f5d5b;
+  color: #bfdc63;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+}
+</style>
 </head>
+
 <body>
-  <div class="card">
-    <div class="title" id="titulo">Cargando...</div>
-    <div class="value" id="lote"></div>
-    <div class="value" id="adicional"></div>
 
-    <div class="buttonWrap">
-      <a class="backButton" href="https://clubdecampolaeugenia.taplink.site/">
-        VOLVER AHORA
-      </a>
+<div class="card">
+
+  <div class="title" id="titulo">Cargando...</div>
+
+  <div class="value" id="lote"></div>
+  <div class="value" id="adicional"></div>
+
+  <!-- BOTÓN COPIAR (usa tu sistema ya probado) -->
+  <a class="taplinkBtn" href="https://clubdecampolaeugenia.github.io/copiar-alias/">
+    <div class="icon">💲</div>
+    <div class="btnText">
+      <div class="btnTitle">COPIAR ALIAS DE LA EUGENIA</div>
+      <div class="btnSub">Copiar alias automáticamente</div>
     </div>
+  </a>
 
-    <div class="footer" id="actualizacion"></div>
-  </div>
+  <!-- VOLVER -->
+  <a class="backButton" href="https://clubdecampolaeugenia.taplink.site/">
+    VOLVER AHORA
+  </a>
 
-  <script>
-    const DATA_URL = "https://script.google.com/macros/s/AKfycbz5gcfgjTNLm94jSdSGcVCiM8WP2673S1cGj9uCCq6XehVlLLJ2Q9OgPaVaSNrvceE7/exec";
+  <div class="footer" id="actualizacion"></div>
 
-    fetch(DATA_URL)
-      .then(response => response.text())
-      .then(text => {
-        const partes = text.split("|");
+</div>
 
-        document.getElementById("titulo").innerText = partes[0] || "Sin datos";
-        document.getElementById("lote").innerText = partes[1] || "";
-        document.getElementById("adicional").innerText = partes[2] || "";
-        document.getElementById("actualizacion").innerText = partes[3] || "";
-      })
-      .catch(() => {
-        document.getElementById("titulo").innerText = "Error cargando datos";
-        document.getElementById("lote").innerText = "Intentá nuevamente";
-        document.getElementById("adicional").innerText = "";
-        document.getElementById("actualizacion").innerText = "";
-      });
-  </script>
+<script>
+
+const DATA_URL = "https://script.google.com/macros/s/AKfycbz5gcfgjTNLm94jSdSGcVCiM8WP2673S1cGj9uCCq6XehVlLLJ2Q9OgPaVaSNrvceE7/exec";
+
+fetch(DATA_URL)
+.then(res => res.text())
+.then(text => {
+  const p = text.split("|");
+
+  document.getElementById("titulo").innerText = p[0] || "";
+  document.getElementById("lote").innerText = p[1] || "";
+  document.getElementById("adicional").innerText = p[2] || "";
+  document.getElementById("actualizacion").innerText = p[3] || "";
+})
+.catch(() => {
+  document.getElementById("titulo").innerText = "Error cargando datos";
+});
+
+</script>
+
 </body>
 </html>
