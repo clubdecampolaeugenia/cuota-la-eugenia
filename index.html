@@ -16,6 +16,15 @@
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      60% { transform: scale(1.15); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes fadeInOverlay {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
     .card { width: 100%; max-width: 430px; background: #c4df57; color: #003a6b; border-radius: 24px; padding: 22px 20px; text-align: center; box-sizing: border-box; box-shadow: 0 10px 28px rgba(0,0,0,0.4); animation: fadeInScreen 0.3s ease-out; }
     .logo-wrap img { width: 198px; height: auto; display: block; margin: auto; filter: drop-shadow(0 4px 7px rgba(0,0,0,0.2)); }
@@ -40,6 +49,7 @@
       text-align: center;
       text-decoration: none;
       border: 2px solid transparent;
+      cursor: pointer;
     }
     .copyBtn { border-color: #0d6663; color: #0d6663; background: transparent; }
     .backButton { background: #0a4f4d; border-color: #0a4f4d; color: #c4df57; }
@@ -52,6 +62,63 @@
     }
 
     .footer { margin-top: 16px; font-size: 12px; color: #003a6b; line-height: 1.5; }
+
+    /* MODAL ALIAS COPIADO */
+    .overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.3);
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 60px;
+      z-index: 999;
+      animation: fadeInOverlay 0.2s ease-out;
+    }
+    .overlay.show { display: flex; }
+    @media (min-width: 600px) {
+      .overlay { align-items: center; padding-top: 0; }
+    }
+    .modal-card {
+      background: #c4df57;
+      padding: 28px 24px;
+      border-radius: 24px;
+      text-align: center;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.4);
+      max-width: 320px;
+      width: 90%;
+      animation: fadeInScreen 0.3s ease-out;
+    }
+    .check-icon {
+      font-size: 48px;
+      margin-bottom: 8px;
+      visibility: hidden;
+    }
+    .check-icon.show {
+      visibility: visible;
+      display: inline-block;
+      animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .modal-titulo {
+      margin: 0 0 12px;
+      color: #000;
+      font-family: Impact, sans-serif;
+      font-size: 22px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      min-height: 26px;
+    }
+    .modal-alias {
+      font-weight: 900;
+      font-size: 17px;
+      margin: 10px 0 0;
+      color: #003a6b;
+      background: #edf1dc;
+      border-radius: 14px;
+      padding: 12px 14px;
+      word-break: break-word;
+      white-space: normal;
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
@@ -68,10 +135,19 @@
       <div class="dato-titulo">Cuota Lote Adicional</div>
       <div class="amount" id="adicional"></div>
     </div>
-    <a class="copyBtn" href="https://clubdecampolaeugenia.github.io/copiar-alias/">Copiar alias de La Eugenia</a>
+    <button class="copyBtn" onclick="copiarAlias()">Copiar alias de La Eugenia</button>
     <a class="backButton" href="https://clubdecampolaeugenia.taplink.site/">Ir al Centro de Gestión Vecinal</a>
     <div class="footer" id="actualizacion"></div>
   </div>
+
+  <div class="overlay" id="overlay">
+    <div class="modal-card">
+      <div class="check-icon" id="check">✅</div>
+      <h2 class="modal-titulo" id="modalTitulo">Copiando...</h2>
+      <div class="modal-alias">DELFIN.COCINA.MANTO</div>
+    </div>
+  </div>
+
   <script>
     const DATA_URL = "https://script.google.com/macros/s/AKfycbz5gcfgjTNLm94jSdSGcVCiM8WP2673S1cGj9uCCq6XehVlLLJ2Q9OgPaVaSNrvceE7/exec";
     fetch(DATA_URL)
@@ -84,6 +160,46 @@
         document.getElementById("actualizacion").innerText = p[3] || "";
       })
       .catch(() => { document.getElementById("titulo").innerText = "Error cargando datos"; });
+
+    function reproducirSonido() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.25);
+      } catch(e) {}
+    }
+
+    function copiarAlias() {
+      const alias = "DELFIN.COCINA.MANTO";
+      navigator.clipboard.writeText(alias);
+
+      const overlay = document.getElementById('overlay');
+      const check = document.getElementById('check');
+      const titulo = document.getElementById('modalTitulo');
+
+      check.classList.remove('show');
+      titulo.innerText = 'Copiando...';
+      overlay.classList.add('show');
+
+      setTimeout(() => {
+        reproducirSonido();
+        check.classList.add('show');
+        titulo.innerText = 'Alias copiado';
+      }, 450);
+
+      setTimeout(() => {
+        overlay.classList.remove('show');
+      }, 1800);
+    }
   </script>
 </body>
 </html>
