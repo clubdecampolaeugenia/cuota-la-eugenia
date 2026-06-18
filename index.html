@@ -3,14 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0d6663">
+  <meta name="theme-color" content="#135457">
   <link rel="apple-touch-icon" href="https://i.imgur.com/UBdZJFW.png">
   <link rel="icon" type="image/png" href="https://i.imgur.com/UBdZJFW.png">
   <title>Cuota vigente</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #0d6663; font-family: 'Roboto', sans-serif; padding: 20px; }
+    :root {
+      --petroleo: #135457;
+      --lima:     #c4df57;
+      --naranja:  #deaf4d;
+      --verdecl:  #b7d6b5;
+      --blanco:   #ffffff;
+      --hueso:    #f5f3ec;
+      --negro:    #000000;
+    }
+    body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--petroleo); font-family: 'Roboto', sans-serif; padding: 20px; }
 
     @keyframes fadeInScreen {
       from { opacity: 0; transform: translateY(8px); }
@@ -26,19 +35,18 @@
       to { opacity: 1; }
     }
 
-    .card { width: 100%; max-width: 430px; background: #c4df57; color: #003a6b; border-radius: 24px; padding: 22px 20px; text-align: center; box-sizing: border-box; box-shadow: 0 10px 28px rgba(0,0,0,0.4); animation: fadeInScreen 0.3s ease-out; }
+    .card { width: 100%; max-width: 430px; background: var(--verdecl); color: var(--petroleo); border-radius: 24px; padding: 22px 20px; text-align: center; box-sizing: border-box; box-shadow: 0 10px 28px rgba(0,0,0,0.4); animation: fadeInScreen 0.3s ease-out; }
     .logo-wrap img { width: 198px; height: auto; display: block; margin: auto; filter: drop-shadow(0 4px 7px rgba(0,0,0,0.2)); }
-    h1 { margin: 8px 0 0; color: #000000; font-family: Impact, sans-serif; font-size: 34px; line-height: 0.95; letter-spacing: 1px; text-transform: uppercase; }
+    h1 { margin: 8px 0 0; color: var(--negro); font-family: Impact, sans-serif; font-size: 34px; line-height: 0.95; letter-spacing: 1px; text-transform: uppercase; }
     @media (max-width: 380px) { h1 { font-size: 28px; } .amount { font-size: 17px !important; } }
-    .dato { background: #edf1dc; border-radius: 14px; padding: 12px; margin: 12px 0; }
-    .dato-titulo { color: #003a6b; font-size: 14px; font-weight: 900; text-transform: uppercase; }
-    .amount { margin-top: 4px; color: #003a6b; font-size: 20px; font-weight: 900; }
+    .dato { background: var(--blanco); border-radius: 14px; padding: 12px; margin: 12px 0; }
+    .dato-titulo { color: var(--petroleo); font-size: 14px; font-weight: 900; text-transform: uppercase; }
+    .amount { margin-top: 4px; color: var(--petroleo); font-size: 20px; font-weight: 900; }
 
     .copyBtn, .backButton {
       display: block;
       width: 100%;
       max-width: 480px;
-      margin: 10px auto 0;
       border-radius: 10px;
       padding: 14px;
       font-family: Impact, sans-serif;
@@ -48,20 +56,19 @@
       box-sizing: border-box;
       text-align: center;
       text-decoration: none;
-      border: 2px solid transparent;
+      border: 2px solid var(--petroleo);
       cursor: pointer;
     }
-    .copyBtn { border-color: #0d6663; color: #0d6663; background: transparent; }
-    .backButton { background: #0a4f4d; border-color: #0a4f4d; color: #c4df57; }
-    .copyBtn:hover { background: #0d6663; color: #c4df57; }
-    .backButton:hover { background: #0a3d3b; }
-    .copyBtn, .backButton { transition: transform 0.08s, box-shadow 0.08s, background 0.15s, color 0.15s; }
+    .copyBtn { margin: 10px auto 0; background: var(--naranja); color: var(--petroleo); }
+    .backButton { margin: 36px auto 0; background: var(--lima); color: var(--petroleo); }
+    .copyBtn:hover, .backButton:hover { opacity: 0.88; }
+    .copyBtn, .backButton { transition: transform 0.08s, box-shadow 0.08s, opacity 0.15s; }
     .copyBtn:active, .backButton:active {
       transform: scale(0.96);
       box-shadow: 0 2px 6px rgba(0,0,0,0.25);
     }
 
-    .footer { margin-top: 16px; font-size: 12px; color: #003a6b; line-height: 1.5; }
+    .footer { margin-top: 16px; font-size: 12px; color: var(--petroleo); line-height: 1.5; }
 
     /* MODAL ALIAS COPIADO */
     @keyframes fadeOutOverlay {
@@ -83,7 +90,7 @@
       .overlay { align-items: center; padding-top: 0; }
     }
     .modal-card {
-      background: #0d6663;
+      background: var(--petroleo);
       padding: 28px 24px;
       border-radius: 24px;
       text-align: center;
@@ -104,7 +111,7 @@
     }
     .modal-titulo {
       margin: 0 0 12px;
-      color: #c4df57;
+      color: var(--lima);
       font-family: Impact, sans-serif;
       font-size: 22px;
       letter-spacing: 1px;
@@ -115,8 +122,8 @@
       font-weight: 900;
       font-size: 17px;
       margin: 10px 0 0;
-      color: #003a6b;
-      background: #edf1dc;
+      color: var(--petroleo);
+      background: var(--blanco);
       border-radius: 14px;
       padding: 12px 14px;
       word-break: break-word;
@@ -139,10 +146,11 @@
       <div class="dato-titulo">Cuota Lote Adicional</div>
       <div class="amount" id="adicional"></div>
     </div>
-    <button class="copyBtn" onclick="copiarAlias()">Copiar alias de La Eugenia</button>
-    <a class="backButton" href="https://clubdecampolaeugenia.taplink.site/">Ir al Centro de Gestión Vecinal</a>
+    <button type="button" class="copyBtn" onclick="copiarAlias()">Copiar alias de La Eugenia</button>
     <div class="footer" id="actualizacion"></div>
   </div>
+
+  <a class="backButton" href="https://clubdecampolaeugenia.taplink.site/">Ir al Centro de Gestión Vecinal</a>
 
   <div class="overlay" id="overlay">
     <div class="modal-card">
