@@ -46,7 +46,7 @@
     .copyBtn, .backButton {
       display: block;
       width: 100%;
-      max-width: 480px;
+      max-width: 430px;
       border-radius: 24px;
       padding: 15px;
       font-family: 'Roboto', sans-serif;
@@ -58,6 +58,13 @@
       text-decoration: none;
       border: none;
       cursor: pointer;
+    }
+    .pregunta-transferencia {
+      margin: 14px 0 0;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--petroleo);
+      text-align: center;
     }
     .copyBtn { margin: 10px auto 0; background: var(--naranja); color: var(--petroleo); box-shadow: 0 0 9px rgba(222,175,77,0.35); }
     .backButton { margin: 36px auto 0; background: var(--lima); color: var(--petroleo); box-shadow: 0 6px 14px rgba(0,0,0,0.25); }
@@ -144,6 +151,7 @@
       <div class="dato-titulo">Cuota Lote Adicional</div>
       <div class="amount" id="adicional"></div>
     </div>
+    <p class="pregunta-transferencia">¿Querés abonar por transferencia bancaria?</p>
     <button type="button" class="copyBtn" onclick="copiarAlias()">Copiar alias de La Eugenia</button>
     <div class="footer" id="actualizacion"></div>
   </div>
