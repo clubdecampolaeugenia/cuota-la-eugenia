@@ -96,28 +96,34 @@
       .overlay { align-items: center; padding-top: 0; }
     }
     .modal-card {
-      background: var(--petroleo);
+      background: rgba(245,243,236,0.96);
+      color: var(--petroleo);
       padding: 28px 24px;
       border-radius: 24px;
       text-align: center;
-      box-shadow: 0 16px 36px rgba(0,0,0,0.35);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.3);
       max-width: 320px;
       width: 90%;
       animation: fadeInScreen 0.3s ease-out;
     }
-    .check-icon {
-      font-size: 48px;
-      margin-bottom: 8px;
+    .icono-circulo {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--lima);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
       visibility: hidden;
     }
-    .check-icon.show {
+    .icono-circulo.show {
       visibility: visible;
-      display: inline-block;
       animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     .modal-titulo {
       margin: 0 0 12px;
-      color: var(--lima);
+      color: var(--petroleo);
       font-family: 'Roboto', sans-serif;
       font-weight: 900;
       font-size: 19px;
@@ -128,7 +134,7 @@
       font-size: 17px;
       margin: 10px 0 0;
       color: var(--petroleo);
-      background: var(--blanco);
+      background: var(--naranja);
       border-radius: 14px;
       padding: 12px 14px;
       word-break: break-word;
@@ -160,7 +166,11 @@
 
   <div class="overlay" id="overlay">
     <div class="modal-card">
-      <div class="check-icon" id="check">✅</div>
+      <div class="icono-circulo" id="check">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#135457" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="5 13 10 18 19 7"></polyline>
+        </svg>
+      </div>
       <h2 class="modal-titulo" id="modalTitulo">Copiando...</h2>
       <div class="modal-alias">DELFIN.COCINA.MANTO</div>
     </div>
