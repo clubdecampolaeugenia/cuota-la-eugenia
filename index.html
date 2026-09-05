@@ -67,7 +67,7 @@
       text-align: center;
     }
     .copyBtn { margin: 10px auto 0; background: var(--naranja); color: var(--petroleo); box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
-    .backButton { margin: 36px auto 0; background: var(--lima); color: var(--petroleo); box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+    .backButton { margin: 14px auto 0; background: var(--lima); color: var(--petroleo); box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
     .copyBtn:hover, .backButton:hover { opacity: 0.9; }
     .copyBtn, .backButton { transition: transform 0.08s, box-shadow 0.08s, opacity 0.15s; }
     .copyBtn:active, .backButton:active {
@@ -75,6 +75,56 @@
     }
 
     .footer { margin-top: 16px; font-size: 12px; color: var(--petroleo); line-height: 1.5; }
+
+    /* PILDORAS DESPLEGABLES */
+    .toggle-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 430px;
+      border-radius: 24px;
+      padding: 12.5px 16px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 0.88rem;
+      background: transparent;
+      cursor: pointer;
+      box-sizing: border-box;
+      transition: opacity 0.15s;
+    }
+    .toggle-pill:active { opacity: 0.75; }
+    .toggle-pill .arrow { font-size: 0.7rem; transition: transform 0.2s; }
+    .toggle-pill.abierto .arrow { transform: rotate(180deg); }
+
+    /* dentro de la card: borde y texto petroleo, sin protagonismo */
+    .toggle-calculo { border: 1.5px solid var(--petroleo); color: var(--petroleo); margin: 4px 0 0; }
+
+    /* fuera de la card: borde y texto verdecl, sobre fondo petroleo */
+    .toggle-mesanterior { border: 1.5px solid var(--verdecl); color: var(--verdecl); margin: 14px auto 0; }
+
+    .panel-desplegable {
+      display: none;
+      max-width: 430px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-top: 8px;
+      text-align: left;
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+    .panel-desplegable.show { display: block; animation: fadeInScreen 0.2s ease-out; }
+
+    .panel-calculo { background: var(--blanco); color: var(--petroleo); }
+
+    .panel-mesanterior { background: transparent; border: 1.5px solid var(--verdecl); color: var(--verdecl); margin-left: auto; margin-right: auto; }
+    .panel-mesanterior .mes-titulo { font-weight: 900; margin-bottom: 8px; font-size: 0.85rem; }
+    .panel-mesanterior .fila { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+    .panel-mesanterior .fila:last-child { margin-bottom: 0; }
+    .panel-mesanterior .fila .label { opacity: 0.85; font-size: 0.78rem; }
+    .panel-mesanterior .fila .valor { font-weight: 700; font-size: 0.92rem; }
 
     /* MODAL ALIAS COPIADO */
     @keyframes fadeOutOverlay {
@@ -157,9 +207,26 @@
       <div class="dato-titulo">Cuota Lote Adicional</div>
       <div class="amount" id="adicional"></div>
     </div>
+
+    <button type="button" class="toggle-pill toggle-calculo" id="btnCalculo" onclick="toggleCalculo()" style="display:none;">
+      <span>¿Cómo se calcula la cuota?</span>
+      <span class="arrow">▾</span>
+    </button>
+    <div class="panel-desplegable panel-calculo" id="panelCalculo"></div>
+
     <p class="pregunta-transferencia">¿Querés abonar por transferencia bancaria?</p>
     <button type="button" class="copyBtn" onclick="copiarAlias()">Copiar alias de La Eugenia</button>
     <div class="footer" id="actualizacion"></div>
+  </div>
+
+  <button type="button" class="toggle-pill toggle-mesanterior" id="btnMesAnterior" onclick="toggleMesAnterior()" style="display:none;">
+    <span id="txtMesAnterior">Ver cuota mes anterior</span>
+    <span class="arrow">▾</span>
+  </button>
+  <div class="panel-desplegable panel-mesanterior" id="panelMesAnterior">
+    <div class="mes-titulo" id="mesAnteriorNombre"></div>
+    <div class="fila"><span class="label">Cuota Lote</span><span class="valor" id="loteAnterior"></span></div>
+    <div class="fila"><span class="label">Cuota Lote Adicional</span><span class="valor" id="adicionalAnterior"></span></div>
   </div>
 
   <a class="backButton" href="https://clubdecampolaeugenia.taplink.site/">Ir al Centro de Gestión Vecinal</a>
@@ -177,17 +244,56 @@
   </div>
 
   <script>
+    // Formato esperado, separado por "|" (backend en Apps Script, hoja "CUOTA VIGENTE"):
+    // 0: titulo (ej "septiembre 2026")
+    // 1: "LOTE: $149.000"
+    // 2: "LOTE ADICIONAL: $57.400"
+    // 3: fecha de ultima actualizacion
+    // 4: nombre del mes anterior (ej "Agosto") -- opcional, si no viene se oculta la pildora
+    // 5: cuota lote del mes anterior (ej "$146.000")
+    // 6: cuota lote adicional del mes anterior (ej "$56.200")
+    // 7: mes del IPC usado para el mes vigente (ej "Julio") -- opcional, si no viene se oculta la pildora de calculo
+    // 8: IPC usado, en % (ej "2,11%")
     const DATA_URL = "https://script.google.com/macros/s/AKfycbz5gcfgjTNLm94jSdSGcVCiM8WP2673S1cGj9uCCq6XehVlLLJ2Q9OgPaVaSNrvceE7/exec";
     fetch(DATA_URL)
       .then(res => res.text())
       .then(text => {
         const p = text.split("|");
-        document.getElementById("titulo").innerText = p[0] || "";
+        const tituloVigente = p[0] || "";
+        document.getElementById("titulo").innerText = tituloVigente;
         document.getElementById("lote").innerText = (p[1] || "").replace(/^LOTE:\s*/i, "");
         document.getElementById("adicional").innerText = (p[2] || "").replace(/^LOTE ADICIONAL:\s*/i, "");
         document.getElementById("actualizacion").innerText = p[3] || "";
+
+        const mesAnterior = p[4] || "";
+        const loteAnt = p[5] || "";
+        const adicionalAnt = p[6] || "";
+        if (mesAnterior && loteAnt && adicionalAnt) {
+          document.getElementById("btnMesAnterior").style.display = "flex";
+          document.getElementById("mesAnteriorNombre").innerText = mesAnterior;
+          document.getElementById("loteAnterior").innerText = loteAnt;
+          document.getElementById("adicionalAnterior").innerText = adicionalAnt;
+        }
+
+        const mesIPC = p[7] || "";
+        const ipcValor = p[8] || "";
+        if (mesIPC && ipcValor) {
+          document.getElementById("btnCalculo").style.display = "flex";
+          const nombreVigente = tituloVigente ? tituloVigente.charAt(0).toUpperCase() + tituloVigente.slice(1) : "este mes";
+          document.getElementById("panelCalculo").innerText =
+            "Un sistema automático consulta el INDEC todos los meses y calcula la cuota según su índice de inflación (IPC), tomado con dos meses de rezago. La cuota de " + nombreVigente + " se calculó con el IPC de " + mesIPC + ": " + ipcValor + ".";
+        }
       })
       .catch(() => { document.getElementById("titulo").innerText = "Error cargando datos"; });
+
+    function toggleCalculo() {
+      document.getElementById("btnCalculo").classList.toggle("abierto");
+      document.getElementById("panelCalculo").classList.toggle("show");
+    }
+    function toggleMesAnterior() {
+      document.getElementById("btnMesAnterior").classList.toggle("abierto");
+      document.getElementById("panelMesAnterior").classList.toggle("show");
+    }
 
     function reproducirSonido() {
       try {
